@@ -1,0 +1,20 @@
+# Ambientes virtuais (muito pesados e específicos da sua máquina)
+venv/
+env/
+ENV/
+
+# Arquivos temporários do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Docker (opcional, mas bom evitar logs)
+.docker/
+
+# Arquivos do VS Code
+.vscode/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
