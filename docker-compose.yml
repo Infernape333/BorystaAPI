@@ -1,11 +1,21 @@
 version: '3.8'
 
 services:
+  # O Motor de Risco (API)
   api-risco:
     build: .
     ports:
       - "8000:8000"
     volumes:
       - ./APP:/app/APP
-    environment:
-      - PYTHONUNBUFFERED=1
+
+  # A Interface (Front-end)
+  interface:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./APP:/app/APP
+    command: streamlit run APP/frontend.py --server.port 8501 --server.address 0.0.0.0
+    depends_on:
+      - api-risco
