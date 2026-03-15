@@ -4,47 +4,57 @@ Este repositório contém o desenvolvimento de um **Microsserviço de Análise d
 
 ---
 
-## 🎯 A Ideia por Trás do Projeto
+## 🚀 Estrutura do Projeto: O Desafio vs. O Plus
 
-O objetivo central foi criar um motor que não fosse apenas um "gerador de números aleatórios", mas uma ferramenta que pudesse auxiliar na tomada de decisão de inspeção fiscal. 
+O projeto foi dividido em duas camadas para demonstrar competência técnica e visão de produto:
 
-A ideia foi unir **segurança de dados**, **performance** e uma **lógica de risco previsível**. Para isso, implementei uma regra de negócio baseada em faixas de valores e antecedentes, onde o score de risco cresce proporcionalmente ao valor da mercadoria dentro de cada canal, permitindo uma triagem muito mais refinada.
+### 1. ⚙️ Back-end: Motor de Risco (Requisito Obrigatório)
+O núcleo da aplicação, desenvolvido rigorosamente conforme os requisitos técnicos solicitados.
+* **API RESTful:** Desenvolvida com **FastAPI**, focada em performance e padronização.
+* **Segurança de Processo:** Implementação de boas práticas de Docker, rodando a aplicação com um **usuário não-root** dedicado, mitigando riscos de segurança no ambiente de execução.
+* **Documentação Interativa:** Disponível via Swagger UI, permitindo a validação de todos os esquemas de dados de forma imediata.
+
+### 2. 🖥️ Interface BorystaIA (Melhoria Criativa)
+Como uma iniciativa própria, desenvolvi um **Front-end exclusivo** para transformar o motor de risco em uma ferramenta visual completa.
+* **Dashboard de Fiscalização:** Interface intuitiva desenvolvida em **Streamlit** para entrada de dados e visualização de resultados.
+* **Validação em Tempo Real:** O sistema identifica campos vazios ou incompletos antes do envio, otimizando a experiência do usuário.
+* **Banco de Dados Volátil (In-Memory):** Implementação de um histórico de sessões que impede a duplicidade de PINs e Nomes de Empresas, permitindo o acompanhamento de múltiplas análises simultâneas.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas e o "Porquê"
+## 🎯 A Ideia por Trás do Projeto
 
-### 1. **Python 3.11 & FastAPI**
-Optei pelo **FastAPI** por ser um dos frameworks mais modernos e rápidos da atualidade. 
-- **Performance:** Ele utiliza `uvicorn` (ASGI), permitindo alta concorrência.
-- **Documentação Automática:** O Swagger UI embutido facilita o teste imediato para os avaliadores e desenvolvedores de front-end.
-- **Tipagem Estática:** O uso de Type Hints reduz drasticamente a chance de erros em produção.
+O objetivo central foi criar um motor que auxiliasse na tomada de decisão de inspeção fiscal de forma previsível. Implementei uma regra de negócio baseada em **Interpolação Linear**, onde o score de risco cresce proporcionalmente ao valor da mercadoria dentro de cada canal (Verde, Amarelo, Vermelho), permitindo uma triagem refinada e justa.
 
-### 2. **Pydantic (Validação de Dados)**
-Fundamental para a integridade do sistema. O código utiliza modelos Pydantic para garantir que o PIN só seja processado se todos os campos (como estados, valores positivos e IDs) estiverem corretos, retornando erros claros caso contrário.
+---
 
-### 3. **Docker & Docker Compose**
-Para garantir a "portabilidade total". 
-- O **Dockerfile** utiliza uma imagem *slim* para reduzir o consumo de recursos.
-- O **Docker Compose** permite que o ambiente seja levantado com um único comando, isolando as dependências do Python do sistema operacional do avaliador.
+## 🛠️ Tecnologias Utilizadas
+
+### **Python 3.11 & FastAPI**
+Optei pelo FastAPI pela alta concorrência com `uvicorn` e pela robustez da tipagem estática, que reduz erros em produção.
+
+### **Pydantic (Validação)**
+Garante a integridade dos dados, assegurando que apenas PINs com informações válidas (estados, valores positivos e IDs) sejam processados.
+
+### **Docker & Docker Compose**
+* **Dockerfile:** Utiliza imagem *slim* e cria um usuário de sistema para execução segura.
+* **Docker Compose:** Orquestra a API e o Front-end em containers isolados que se comunicam via rede interna segura.
 
 ---
 
 ## ⚙️ Regras de Negócio e Algoritmo de Risco
 
-O coração da aplicação é a função de cálculo de risco, que segue uma lógica de **Interpolação Linear** para evitar saltos bruscos no score:
-
 | Critério | Canal | Score | Lógica Aplicada |
 | :--- | :--- | :--- | :--- |
 | **Valor < 100k** | Verde | 0 - 39 | Risco baixo, proporcional ao valor. |
-| **100k - 500k** | Amarelo | 40 - 79 | Risco moderado. Ex: R$ 300k gera um score ~59. |
-| **Valor > 500k ou Infração** | Vermelho | 80 - 100 | Risco crítico. Infrações levam o score direto ao topo. |
+| **100k - 500k** | Amarelo | 40 - 79 | Risco moderado. Interpolação baseada na faixa. |
+| **Valor > 500k ou Infração** | Vermelho | 80 - 100 | Risco crítico. Infrações levam o score ao topo. |
 
 ---
 
-## 🚀 Como Executar e Testar
+## 🚦 Como Executar e Testar
 
 ### Rodando com Docker
 1. Clone este repositório.
-2. Na raiz, execute:
+2. Na raiz do projeto, execute:
    docker-compose up --build
