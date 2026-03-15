@@ -13,7 +13,7 @@ class RiskAnalysisRequest(BaseModel):
     pin_id: str 
     company_name: str 
     merchandise_value: float = Field(gt=0, example=150000.00)
-    origim_state : str = Field(min_length=2, max_length=2, example="SP")
+    origin_state : str = Field(min_length=2, max_length=2, example="SP")
     destination_state : str = Field(min_length=2, max_length=2, example="AM")
     has_previous_infractions: bool
 
@@ -21,7 +21,7 @@ class RiskAnalysisResponse(BaseModel):
     pin_id: str
     risk_score: int
     risk_level: str
-    analysis_date: datetime
+    analysis_timestamp: datetime
 
 
 def calculate_risk_score(value: float, has_infractions: bool):
@@ -62,7 +62,7 @@ async def analyze_risk(payload: RiskAnalysisRequest):
         "pin_id": payload.pin_id,  
         "risk_score": score,
         "risk_level": channel,
-        "analysis_date": datetime.now()
+        "analysis_timestamp": datetime.now()
     }
 
         
