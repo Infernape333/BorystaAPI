@@ -56,5 +56,12 @@ Garante a integridade dos dados, assegurando que apenas PINs com informações v
 
 ### Rodando com Docker
 1. Clone este repositório.
+
 2. Na raiz do projeto, execute:
    docker-compose up --build
+
+3. Para ir para a API use o localhost:
+   http://127.0.0.1:8000/docs#/default/analyze_risk_api_v1_risk_score_post
+
+4. Para ir para o Frontend use o localhost:
+   localhost:8501
