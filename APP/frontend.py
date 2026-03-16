@@ -65,7 +65,6 @@ if submit_button:
             }
 
             try:
-                # SÓ UM BLOCO DE REQUEST AGORA
                 response = requests.post("http://api-risco:8000/api/v1/risk-score", json=payload)
                 response.raise_for_status()
                 result = response.json()
@@ -88,6 +87,7 @@ if submit_button:
                     <div class="result">
                         <h3>Resultado da Análise de Risco</h3>
                         <p><strong>PIN ID:</strong> {novo_registro['PIN ID']}</p>
+                        <p><strong>Empresa:</strong> {novo_registro['Empresa']}</p>
                         <p><strong>Risco:</strong> {novo_registro['Nível']} ({novo_registro['Score']} pts)</p>
                         <p><strong>Rota:</strong> {novo_registro['Origem']} ➡️ {novo_registro['Destino']}</p>
                         <p><strong>Data:</strong> {novo_registro['Data']}</p>
